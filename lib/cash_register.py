@@ -7,17 +7,23 @@ class CashRegister:
     self.discount = discount
     self.total = 0
     self.items = []
+    self.all_items = []
+    self.last_transaction_amount = 0.0
 
   def add_item(self, title, price, quantity=1):
+
+    for _ in range(quantity):
+        self.items.append(title)
+        self.all_items.append(title)
+        self.total += price
+        self.last_transaction_amount = price * quantity
+    return self.all_items
     
-    self.items.append((title, price, quantity))
-    self.total += price * quantity
 
   def apply_discount(self):
     
     if self.discount == 0:
       print("There is no discount to apply.")
-      
       return 
 
     percent = float(self.discount)
@@ -27,7 +33,7 @@ class CashRegister:
     self.total = int(self.total)
     print(f"After the discount, the total comes to ${self.total}.")
 
-  def get_items(self):
-    return self.items  
+  def void_last_transaction(self):
 
-      
+    self.total -= self.last_transaction_amount
+    self.all_items.pop()
